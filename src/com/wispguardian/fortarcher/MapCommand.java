@@ -11,12 +11,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
 public class MapCommand implements CommandExecutor, Listener {
-	
+
 	private Map map;
-	
+
 	@Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-	    
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
 		if(sender instanceof Player) {
 			Player p = (Player)sender;
 			if(map != null) {
@@ -32,15 +32,15 @@ public class MapCommand implements CommandExecutor, Listener {
 			listenOn();
 			Main.sendMsg(p, "Left click base origin #1 (bedrock block)");
 		}
-		
-        return true;
-    }
-	
+
+		return true;
+	}
+
 	@EventHandler
 	public void onBreak(BlockBreakEvent event) {
 		if(event.getPlayer() != map.getPlayer()) return;
 		event.setCancelled(true);
-		
+
 		boolean done = map.setNext(event.getBlock().getLocation());
 		if(done) {
 			map.saveToFile();
@@ -49,11 +49,11 @@ public class MapCommand implements CommandExecutor, Listener {
 			listenOff();
 		}
 	}
-	
+
 	private void listenOn() {
 		Main.instance.getServer().getPluginManager().registerEvents(this, Main.instance);
 	}
-	
+
 	private void listenOff() {
 		HandlerList.unregisterAll(this);
 	}

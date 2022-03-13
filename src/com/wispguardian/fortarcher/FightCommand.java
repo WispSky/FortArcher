@@ -13,10 +13,10 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 
 public class FightCommand implements CommandExecutor {
-	
+
 	@Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-	    
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
 		if(sender instanceof Player) {
 			Player player = (Player)sender;
 			if(args.length == 0) {
@@ -50,23 +50,23 @@ public class FightCommand implements CommandExecutor {
 				}else Main.sendMsg(player, "Player not found", ChatColor.RED);
 			}
 		}
-		
-        return true;
-    }
-	
+
+		return true;
+	}
+
 	private void sendChallenge(Player player, Player opp, int maxPoints) {
 		Main.sendMsg(player, "You sent a challenge to "+opp.getDisplayName());
-		
+
 		TextComponent challengeMsg = new TextComponent(
 				Main.PREFIX+"You have been challenged by "+
-				player.getDisplayName());
+						player.getDisplayName());
 		challengeMsg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
 				new Text(ChatColor.AQUA+""+ChatColor.BOLD+"Click to accept!")));
 		challengeMsg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
 				"/fight "+player.getName()));
-		
+
 		new Challenge(player, opp, maxPoints);
-		
+
 		opp.spigot().sendMessage(challengeMsg);
 	}
 

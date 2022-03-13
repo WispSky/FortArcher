@@ -29,21 +29,21 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 
 public class BuildCommand implements CommandExecutor {
-	
-//	private ArrayList<Player> players = new ArrayList<Player>();
+
+	//	private ArrayList<Player> players = new ArrayList<Player>();
 	private HashMap<Player, BlockVector3[]> players = new HashMap<Player, BlockVector3[]>();
-	
+
 	@Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-	    
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
 		if(sender instanceof Player) {
 			Player player = (Player)sender;
 			toggleBuild(player);
 		}
-		
-        return true;
-    }
-	
+
+		return true;
+	}
+
 	private void toggleBuild(Player player) {
 		if(players.containsKey(player)) {
 			// disable/finish
@@ -57,17 +57,17 @@ public class BuildCommand implements CommandExecutor {
 			player.sendMessage(Main.PREFIX + "BUILD MODE ACTIVATED");
 		}
 	}
-	
+
 	private static WorldEditPlugin WE() {
 		return Utils.WE();
 	}
-	
+
 	private boolean playerHasBase(Player player) {
 		String baseFile = "/bases/base_"+player.getUniqueId();
 		File file = new File(Main.instance.getDataFolder().getAbsolutePath() + baseFile);
 		return file.exists();
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	private void saveBase(Player player) {
 		String baseFile = "/bases/base_"+player.getUniqueId();
@@ -90,7 +90,7 @@ public class BuildCommand implements CommandExecutor {
 		}
 		// save to file
 		try(ClipboardWriter writer = BuiltInClipboardFormat.SPONGE_SCHEMATIC.getWriter(new FileOutputStream(file))) {
-		    writer.write(clipboard);
+			writer.write(clipboard);
 		}catch(FileNotFoundException e) {
 			e.printStackTrace();
 		}catch(IOException e) {
@@ -103,38 +103,38 @@ public class BuildCommand implements CommandExecutor {
 			e.printStackTrace();
 		}
 	}
-	
-    private void pasteDefaultBase(Player player) {
+
+	private void pasteDefaultBase(Player player) {
 		Clipboard clipboard = Utils.getClipboard(WE().getDataFolder().getAbsolutePath() + "/schematics/base.schem");
-		
+
 		Location loc = player.getLocation();
 		loc = new Location(player.getWorld(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
 		Utils.pasteClipboard(clipboard, loc);
-		
+
 		// get positions of region to save when done
 		BlockVector3 origin = BlockVector3.at(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
 		BlockVector3 dim = clipboard.getDimensions();
 		BlockVector3 pos1 = origin.subtract(dim.getBlockX()/2, 1, dim.getBlockZ()/2);
-	    BlockVector3 pos2 = origin.add(dim.getBlockX()/2, dim.getBlockY()-1, dim.getBlockZ()/2);
-	    BlockVector3[] blocks = {pos1, pos2};
-	    players.put(player, blocks);
-    }
-    
-    private void pastePlayerBase(Player player) {
-    	String baseFile = "/bases/base_"+player.getUniqueId();
+		BlockVector3 pos2 = origin.add(dim.getBlockX()/2, dim.getBlockY()-1, dim.getBlockZ()/2);
+		BlockVector3[] blocks = {pos1, pos2};
+		players.put(player, blocks);
+	}
+
+	private void pastePlayerBase(Player player) {
+		String baseFile = "/bases/base_"+player.getUniqueId();
 		Clipboard clipboard = Utils.getClipboard(Main.instance.getDataFolder().getAbsolutePath()+baseFile);
-		
+
 		Location loc = player.getLocation();
 		loc = new Location(player.getWorld(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
 		Utils.pasteClipboard(clipboard, loc);
-		
+
 		// get positions of region to save when done
 		BlockVector3 origin = BlockVector3.at(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
 		BlockVector3 dim = clipboard.getDimensions();
-	    BlockVector3 pos1 = origin.subtract(dim.getBlockX()/2, 1, dim.getBlockZ()/2);
-	    BlockVector3 pos2 = origin.add(dim.getBlockX()/2, dim.getBlockY()-1, dim.getBlockZ()/2);
-	    BlockVector3[] blocks = {pos1, pos2};
-	    players.put(player, blocks);
-    }
+		BlockVector3 pos1 = origin.subtract(dim.getBlockX()/2, 1, dim.getBlockZ()/2);
+		BlockVector3 pos2 = origin.add(dim.getBlockX()/2, dim.getBlockY()-1, dim.getBlockZ()/2);
+		BlockVector3[] blocks = {pos1, pos2};
+		players.put(player, blocks);
+	}
 
 }

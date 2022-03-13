@@ -21,30 +21,30 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class EventListener implements Listener {
-	
+
 	@EventHandler
-    public void onEntityDamage (EntityDamageEvent e) {
-        if (e.getEntity() instanceof Player) {
-            Player player = (Player)e.getEntity();
-            Challenge c = Challenge.getChallenge(player);
-            if(c != null && e.getCause() == DamageCause.VOID) {
-            	int base = 0;
-            	if(c.getOpp() == player) base = 1;
-            	player.setInvulnerable(true);
-            	player.teleport(c.getBases()[base]);
-            	player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getDefaultValue());
-            	
-            	// take away invulnerability after 2 seconds
-            	Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.instance, new Runnable(){
-                    @Override
-                    public void run(){
-                        player.setInvulnerable(false);
-                    }
-                }, 2*20L);
-            }
-        }
-    }
-	
+	public void onEntityDamage (EntityDamageEvent e) {
+		if (e.getEntity() instanceof Player) {
+			Player player = (Player)e.getEntity();
+			Challenge c = Challenge.getChallenge(player);
+			if(c != null && e.getCause() == DamageCause.VOID) {
+				int base = 0;
+				if(c.getOpp() == player) base = 1;
+				player.setInvulnerable(true);
+				player.teleport(c.getBases()[base]);
+				player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getDefaultValue());
+
+				// take away invulnerability after 2 seconds
+				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.instance, new Runnable(){
+					@Override
+					public void run(){
+						player.setInvulnerable(false);
+					}
+				}, 2*20L);
+			}
+		}
+	}
+
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
 		Player player = event.getEntity();
@@ -55,7 +55,7 @@ public class EventListener implements Listener {
 			c.addPoint((player == host)?opp:host);
 		}
 	}
-	
+
 	@EventHandler
 	public void onRespawn(PlayerRespawnEvent event) {
 		Player player = event.getPlayer();
@@ -66,7 +66,7 @@ public class EventListener implements Listener {
 			event.setRespawnLocation(c.getBases()[base]);
 		}
 	}
-	
+
 	@EventHandler
 	public void onBreak(BlockBreakEvent event) {
 		Player player = event.getPlayer();
@@ -77,7 +77,7 @@ public class EventListener implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onPlace(BlockPlaceEvent event) {
 		Player player = event.getPlayer();
@@ -91,7 +91,7 @@ public class EventListener implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
@@ -102,7 +102,7 @@ public class EventListener implements Listener {
 					block.getType() == Material.GOLD_BLOCK &&
 					event.getClickedBlock().getType() == Material.GOLD_BLOCK) {
 				if((player == c.getHost() && block.getLocation().equals(c.getFlags()[1])) ||
-					(player == c.getOpp() && block.getLocation().equals(c.getFlags()[0]))) {
+						(player == c.getOpp() && block.getLocation().equals(c.getFlags()[0]))) {
 					// take flag
 					block.setType(Material.AIR);
 					player.getInventory().addItem(new ItemStack(Material.GOLD_BLOCK, 1));

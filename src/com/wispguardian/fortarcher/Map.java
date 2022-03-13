@@ -14,18 +14,18 @@ import org.bukkit.entity.Player;
 
 public class Map implements Serializable {
 	private static final long serialVersionUID = 2255278366627016585L;
-	
+
 	private transient Location base1, base2, flag1, flag2;
 	private transient Player player;
-	
+
 	private int[][] locations = new int[4][3];
 	private String name;
-	
+
 	public Map(Player player, String name) {
 		this.player = player;
 		this.name = name;
 	}
-	
+
 	private void updateArray() {
 		locations[0][0] = base1.getBlockX();
 		locations[0][1] = base1.getBlockY();
@@ -40,7 +40,7 @@ public class Map implements Serializable {
 		locations[3][1] = flag2.getBlockY();
 		locations[3][2] = flag2.getBlockZ();
 	}
-	
+
 	public void saveToFile() {
 		String f = Main.instance.getDataFolder().getAbsolutePath()+"/maps/"+name;
 		try {
@@ -52,7 +52,7 @@ public class Map implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static Map loadFromFile(String filename) {
 		String f = Main.instance.getDataFolder().getAbsolutePath()+"/maps/"+filename;
 		Map m = null;
@@ -76,7 +76,7 @@ public class Map implements Serializable {
 		}
 		return m;
 	}
-	
+
 	public boolean setNext(Location location) {
 		boolean done = false;
 		if(base1 == null) {
@@ -95,7 +95,7 @@ public class Map implements Serializable {
 		}
 		return done;
 	}
-	
+
 	// getters/setters
 	public Player getPlayer() {
 		return player;
@@ -104,25 +104,25 @@ public class Map implements Serializable {
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-	
+
 	public int[][] getLocations() {
 		return locations;
 	}
-	
+
 	public Location getBase1(World world) {
 		return new Location(world, locations[0][0], locations[0][1], locations[0][2]);
 	}
-	
+
 	public Location getBase2(World world) {
 		return new Location(world, locations[1][0], locations[1][1], locations[1][2]);
 	}
-	
+
 	public Location getFlag1(World world) {
 		return new Location(world, locations[2][0], locations[2][1], locations[2][2]);
 	}
-	
+
 	public Location getFlag2(World world) {
 		return new Location(world, locations[3][0], locations[3][1], locations[3][2]);
 	}
-	
+
 }
