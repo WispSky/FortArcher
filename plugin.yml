@@ -1,0 +1,14 @@
+name: FortArcher
+main: com.wispguardian.fortarcher.Main
+version: 1.0.0
+api-version: 1.18
+commands:
+   fight:
+      description: Send a challenge!
+      usage: /<command> @target
+   build:
+      description: Build your base!
+      usage: /<command>
+   map:
+      description: Set map locations
+      usage: /<command> map_name
