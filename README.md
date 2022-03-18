@@ -11,9 +11,5 @@ Now you're ready to play! /fight <name> will send a request to the targeted play
 
 ### TO-DO
 `-` Config file<br>
-`-` Set gamemodes to creative when building and survival when a game begins<br>
 `-` MORE MAPS<br>
 `-` Better default base<br>
-
-### Known Bugs
-`-` Flag does not reset when falling into the void with it. (Definitely overlooked this one when adding teleportation from the void)<br>
