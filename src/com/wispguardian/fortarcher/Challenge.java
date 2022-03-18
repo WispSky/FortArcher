@@ -151,6 +151,8 @@ public class Challenge {
 		bases[1] = base2Loc;
 		players[0].teleport(base1Loc);
 		players[1].teleport(base2Loc);
+		players[0].setGameMode(GameMode.SURVIVAL);
+		players[1].setGameMode(GameMode.SURVIVAL);
 		equipPlayers();
 	}
 

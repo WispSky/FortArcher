@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -52,6 +53,7 @@ public class BuildCommand implements CommandExecutor {
 			player.sendMessage(Main.PREFIX + "BASE SAVED");
 		}else {
 			// enable/build
+			player.setGameMode(GameMode.CREATIVE);
 			if(!playerHasBase(player)) pasteDefaultBase(player);
 			else pastePlayerBase(player);
 			player.sendMessage(Main.PREFIX + "BUILD MODE ACTIVATED");

@@ -26,9 +26,9 @@ public class FightCommand implements CommandExecutor {
 				String oppName = args[0];
 				Player opp = Bukkit.getPlayer(oppName);
 				if(opp != null) {
-					if(opp == player) Main.sendMsg(player,
-							"You can't challenge yourself!", ChatColor.RED);
-					else {
+//					if(opp == player) Main.sendMsg(player,
+//							"You can't challenge yourself!", ChatColor.RED);
+//					else {
 						// successful challenge
 						Challenge c = Challenge.getChallenge(player, opp);
 						if(c == null) {
@@ -44,7 +44,7 @@ public class FightCommand implements CommandExecutor {
 						}else if(!c.isAccepted() && player == c.getOpp()) c.accept();
 						else if(c.isAccepted()) Main.sendMsg(player, "This match has already begun.", ChatColor.RED);
 						else if(player == c.getHost()) Main.sendMsg(player, "You already sent a challenge!", ChatColor.RED);
-					}
+//					}
 				}else if(args[0].equals("-1")) {
 					Challenge.clearAll();
 				}else Main.sendMsg(player, "Player not found", ChatColor.RED);

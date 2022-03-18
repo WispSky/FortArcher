@@ -23,17 +23,25 @@ import org.bukkit.inventory.ItemStack;
 public class EventListener implements Listener {
 
 	@EventHandler
-	public void onEntityDamage (EntityDamageEvent e) {
-		if (e.getEntity() instanceof Player) {
-			Player player = (Player)e.getEntity();
+	public void onEntityDamage (EntityDamageEvent event) {
+		if (event.getEntity() instanceof Player) {
+			Player player = (Player)event.getEntity();
 			Challenge c = Challenge.getChallenge(player);
-			if(c != null && e.getCause() == DamageCause.VOID) {
+			if(c != null && event.getCause() == DamageCause.VOID) {
+				event.setCancelled(true); // cancel event to avoid damage
 				int base = 0;
 				if(c.getOpp() == player) base = 1;
 				player.setInvulnerable(true);
 				player.teleport(c.getBases()[base]);
 				player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getDefaultValue());
 
+				// reset flag
+				ItemStack gold = new ItemStack(Material.GOLD_BLOCK);
+				if(player.getInventory().contains(gold)) {
+					player.getInventory().remove(gold);
+					c.getFlags()[base==0?1:0].getBlock().setType(Material.GOLD_BLOCK);
+				}
+				
 				// take away invulnerability after 2 seconds
 				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.instance, new Runnable(){
 					@Override
